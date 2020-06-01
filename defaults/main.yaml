@@ -1,0 +1,8 @@
+---
+certmgr:
+  golang:
+    common: &common
+      - name: certmgr
+        url: github.com/cloudflare/certmgr/certmgr
+    debian_armv7l: *common
+    debian_x86_64: *common

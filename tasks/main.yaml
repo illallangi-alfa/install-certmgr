@@ -1,0 +1,21 @@
+---
+
+- name: "Install certmgr (debian)"
+  environment:
+    GOPATH: "/usr/local/src/go"
+  shell: |
+    go get -u {{ item.url }}
+  args:
+    creates: "/usr/local/src/go/bin/{{ item.name }}"
+  with_items: "{{ certmgr.golang[(ansible_os_family | lower) + '_' + (ansible_architecture | lower)] }}"
+  tags:
+    - "certmgr"
+
+- name: "Link binaries"
+  file:
+    src: "/usr/local/src/go/bin/{{ item.name }}"
+    dest: "/usr/local/bin/{{ item.name }}"
+    state: link
+  with_items: "{{ certmgr.golang[(ansible_os_family | lower) + '_' + (ansible_architecture | lower)] }}"
+  tags:
+    - "certmgr"
